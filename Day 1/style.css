@@ -1,0 +1,65 @@
+body {
+    background-color: cornsilk;
+    margin: 0;
+}
+
+header{
+    display: flex;
+    margin-bottom: 20px;
+    background-color: tomato;
+}
+
+.foto {
+    width: 100px;
+}
+
+.nama{
+    display: inline;
+    margin-left: 20px;
+}
+
+.container{
+    display: grid;
+    margin: auto;
+    grid-template-areas: 
+        "education experience skills";
+    padding: 20px;
+    max-width: 1500px;
+    gap: 10px;
+}
+
+.education{
+    grid-area: education;
+    background-color: wheat;
+    padding: 50px;
+}
+
+.experience{
+    grid-area: experience;
+    background-color: wheat;
+    padding: 50px;
+}
+
+.skills{
+    grid-area: skills;
+    background-color: wheat;
+    padding: 50px;
+}
+
+h2{
+    text-align: center;
+}
+
+footer{
+    text-align: center;
+    background-color: sandybrown;
+    padding-bottom: 10px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+}
+
+.icon{
+    height: 100px;
+}
