@@ -1,3 +1,5 @@
+// Ketik npm start untuk memeulai server dan nodemon
+
 // Library
 const express = require('express');
 const mysql = require('mysql');
@@ -11,6 +13,9 @@ app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 
+// Setting client / front-end
+app.set("view engine", "ejs");
+
 // Database connection
 const db = mysql.createConnection({
     host: "localhost", 
@@ -22,33 +27,65 @@ const db = mysql.createConnection({
 db.connect((err) => {
     if (err) throw err;
     console.log("Database connected!")
-});
+})
 
 // Route
-app.get("/", (req, res) => {
-    res.send("Hello ITB")
-});
+app.get("/form", (req, res) => {
+    res.render("form")
+})
 
-app.get("/test", (req, res) => {
-    res.send("Hello World")
-});
-
+// 1. Baca Data
 app.get("/readdata", (req, res) => {
     const sql = "SELECT * FROM matkul";
     db.query(sql, (err, result) => {
         if (err) throw err;
         res.send(result)
     });
+})
+
+
+// 2. Create / Post data ke database
+
+app.post("/postdata", (req, res) => {
+    const nama = req.body.nama;
+    const kode = req.body.kode;
+    const dosen = req.body.dosen;
+    
+    const sql = "INSERT INTO matkul (nama, kode, dosen) VALUES (?, ?, ?)";
+    const values = [nama, kode, dosen];
+    db.query(sql, values, (err, result) => {
+        if (err) throw err;
+        res.json({
+            message: "Data submitted!"
+        });
+    })
+})
+
+// 3. Update data
+app.put("/editdata/:id", (req, res) => {
+    const dosen = req.body.dosen;
+    const id = req.params.id;
+
+    const sql = "UPDATE matkul SET dosen = ? WHERE idmatkul = ?";
+    const values = [dosen, id];
+    db.query(sql, values, (err, result) => {
+        if (err) throw err;
+        res.send("Data Updated!")
+    })
 });
 
-app.post("/postdata/:nama", (req, res) => {
-    console.log(req.body);
-    console.log(req.body.nama);
-    console.log(req.body.kode);
-    res.send("Data sent");
+// 4. Delete Data
+app.delete("/deletedata/:id", (req, res) => {
+    const id = req.params.id;
+    const sql = "DELETE FROM matkul WHERE idmatkul = ?";
+
+    db.query(sql, id, (err, result) => {
+        if (err) throw err;
+        res.send("Data Deleted!");
+    })
 });
 
 // Start Server
 app.listen(3001, () => {
     console.log('Server started...')
-});
+})
