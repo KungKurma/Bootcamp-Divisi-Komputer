@@ -13,6 +13,11 @@ const db = mysql.createConnection({
     database: "bootcampday3"
 });
 
+db.connect((err) => {
+    if (err) throw err;
+    console.log("Database connected!")
+});
+
 // Route
 app.get("/", (req, res) => {
     res.send("Hello ITB")
