@@ -56,7 +56,7 @@ app.post("/postdata", (req, res) => {
     db.query(sql, values, (err, result) => {
         if (err) throw err;
         res.json({
-            message: "Data submitted!"
+            message: "Data submitted! <a href='http://localhost:3001/readdata'>Click Here To See Database</a>"
         });
     })
 })
